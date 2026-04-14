@@ -1,7 +1,7 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "updated": "2026-04-15",
-  "description": "Zopia.ai API endpoints - complete verified list",
+  "description": "Zopia.ai complete API endpoints - 41 verified APIs",
   "endpoints": [
     {
       "method": "GET",
@@ -35,7 +35,50 @@
       "path": "/api/base/{base_id}",
       "query": {"episode_id": "1"},
       "auth": true,
-      "description": "获取Base详情"
+      "description": "获取Base完整数据（export格式）"
+    },
+    {
+      "method": "POST",
+      "path": "/api/base/{base_id}/rename",
+      "auth": true,
+      "description": "重命名Base",
+      "body": {"name": "new_name"},
+      "response": {"success": true}
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/base/{base_id}/delete",
+      "auth": true,
+      "description": "删除Base",
+      "response": {"success": true}
+    },
+    {
+      "method": "GET",
+      "path": "/api/base/{base_id}/export",
+      "auth": true,
+      "description": "导出Base完整数据（含所有episode、document、records）",
+      "response": {
+        "base": {"id", "name", "privacy"},
+        "episodes[]": {"id", "name", "order"},
+        "docufiles[]": {"id", "name", "docu_type", "episode_id"},
+        "baseRecords[]": {},
+        "docuTexts[]": {"id", "content"},
+        "tableFields[]": {},
+        "tableMetadata[]": {},
+        "chatSessions[]": {}
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/base/{base_id}/remove-from-team",
+      "auth": true,
+      "description": "将Base从团队移除"
+    },
+    {
+      "method": "POST",
+      "path": "/api/base/{base_id}/transfer-to-team",
+      "auth": true,
+      "description": "转移Base到团队"
     },
     {
       "method": "POST",
@@ -86,6 +129,25 @@
       "query": {"page": "1", "pageSize": "5"},
       "auth": true,
       "description": "作品展示列表"
+    },
+    {
+      "method": "GET",
+      "path": "/api/showcase/{id}",
+      "auth": true,
+      "description": "获取单个showcase详情"
+    },
+    {
+      "method": "POST",
+      "path": "/api/showcase/migrate",
+      "auth": true,
+      "description": "迁移showcase"
+    },
+    {
+      "method": "POST",
+      "path": "/api/showcase/review",
+      "auth": true,
+      "description": "审核showcase",
+      "body": {"submission_id": "string", "action": "approve|reject", "reject_reason": "string"}
     },
     {
       "method": "GET",
@@ -148,14 +210,7 @@
       "method": "POST",
       "path": "/api/upload/attachment",
       "auth": true,
-      "description": "上传附件",
-      "body": {"url": "string", "name": "string"}
-    },
-    {
-      "method": "POST",
-      "path": "/api/storyboard/parse-import",
-      "auth": true,
-      "description": "分镜板导入"
+      "description": "上传附件"
     },
     {
       "method": "POST",
@@ -235,16 +290,21 @@
     "/api/admin/debug/stop-impersonate",
     "/api/auth/signin",
     "/api/billing/createCheckoutSession",
-    "/api/billing/listTransactions",
+    "/api/v1/task/{task_id}",
+    "/api/v1/task/list",
     "/api/subscription/stripe/create-checkout",
     "/api/subscription/stripe/customer-portal",
     "/api/telemetry",
-    "/api/v1/task/"
+    "/api/chat_session/{id}",
+    "/api/session/{id}/status"
   ],
   "known_invalid": [
     {"method": "POST", "path": "/api/episode/create", "error": "404 Not Found"},
     {"method": "POST", "path": "/api/base/{id}/episode", "error": "404 Not Found"},
-    {"method": "POST", "path": "/api/base/dashboard", "error": "405 Method Not Allowed"}
+    {"method": "POST", "path": "/api/base/dashboard", "error": "405 Method Not Allowed"},
+    {"method": "POST", "path": "/api/base/{id}/export", "error": "405 Method Not Allowed (use GET)"},
+    {"method": "POST", "path": "/api/base/{id}/delete", "error": "405 Method Not Allowed (use DELETE)"},
+    {"method": "GET", "path": "/api/base/{id}/remove-from-team", "error": "405 Method Not Allowed (use POST)"}
   ],
   "model_ids": {
     "kling_o3": "generate_video_by_kling_o3",
@@ -254,5 +314,10 @@
     "hailuo_2_3": "generate_video_by_hailuo_2_3",
     "wan_2_6_i2v": "generate_video_by_wan_2_6_i2v",
     "vidu_q3_pro": "generate_video_by_vidu_q3_pro"
+  },
+  "notes": {
+    "export_endpoint": "GET /api/base/{base_id}/export 返回完整数据结构，是理解内部模型的关键",
+    "session_cookies": "NEXT_LOCALE, sessionId, userId, amplitude_session_id, __Secure-next-auth.session-token",
+    "balance_format": "summary.totalAvailable (float USD), accounts[].balance (string)"
   }
 }
