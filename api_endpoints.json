@@ -1,0 +1,29 @@
+{
+  "auth": [
+    "/api/auth/session"
+  ],
+  "base": [
+    "/api/base/",
+    "/api/base/create",
+    "/api/base/list"
+  ],
+  "chat": [
+    "/api/chat/start",
+    "/api/chat/cancel/",
+    "/api/chat_session/"
+  ],
+  "session": [
+    "/api/session/"
+  ],
+  "storyboard": [
+    "/api/storyboard/parse-import"
+  ],
+  "upload": [
+    "/api/upload/attachment"
+  ],
+  "showcase": [
+    "/api/showcase/",
+    "/api/showcase/review",
+    "/api/showcase/migrate"
+  ]
+}
