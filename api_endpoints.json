@@ -1,29 +1,258 @@
 {
-  "auth": [
-    "/api/auth/session"
+  "version": "2.1.0",
+  "updated": "2026-04-15",
+  "description": "Zopia.ai API endpoints - complete verified list",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/billing/getBalance",
+      "auth": true,
+      "description": "查询账户余额",
+      "response": {
+        "summary.totalBalance": "float, 总余额(美元)",
+        "summary.totalAvailable": "float, 可用余额(美元)",
+        "summary.totalHeld": "float, 锁定余额(美元)",
+        "accounts[]": "[{id, balance, credit_type, expires_at}]"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/base/list",
+      "query": {"page": "1", "pageSize": "20"},
+      "auth": true,
+      "description": "获取Base列表"
+    },
+    {
+      "method": "POST",
+      "path": "/api/base/create",
+      "auth": true,
+      "description": "创建Base，自动创建第一个Episode",
+      "body": {"name": "string", "teamId": "null"},
+      "response": {"data.baseId": "string", "data.episodeId": "string"}
+    },
+    {
+      "method": "GET",
+      "path": "/api/base/{base_id}",
+      "query": {"episode_id": "1"},
+      "auth": true,
+      "description": "获取Base详情"
+    },
+    {
+      "method": "POST",
+      "path": "/api/base/task",
+      "auth": true,
+      "description": "发送视频生成任务",
+      "body": {
+        "field_id": "videos",
+        "record_id": "string",
+        "base_id": "string",
+        "table_id": "episode_xxx",
+        "generation_params": {}
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/task/{task_id}",
+      "auth": true,
+      "description": "轮询任务状态",
+      "response": {
+        "status": "processing|completed|failed",
+        "video_url": "string (completed时)",
+        "error": "string (failed时)"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/task/queue-status",
+      "query": {"baseId": "base_xxx"},
+      "auth": true,
+      "description": "任务队列状态"
+    },
+    {
+      "method": "GET",
+      "path": "/api/base/canvas/{base_id}",
+      "auth": true,
+      "description": "获取Canvas快照"
+    },
+    {
+      "method": "GET",
+      "path": "/api/base/document/{doc_id}",
+      "auth": true,
+      "description": "获取文档详情"
+    },
+    {
+      "method": "GET",
+      "path": "/api/showcase/list",
+      "query": {"page": "1", "pageSize": "5"},
+      "auth": true,
+      "description": "作品展示列表"
+    },
+    {
+      "method": "GET",
+      "path": "/api/seedance-modes",
+      "auth": true,
+      "description": "Seedance模式列表",
+      "response": {"descriptors[].id": "n_grid|multi_ref_v2|video_ref|multi_ref"}
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/session",
+      "auth": true,
+      "description": "认证Session"
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/me",
+      "auth": true,
+      "description": "用户信息"
+    },
+    {
+      "method": "GET",
+      "path": "/api/subscription/get",
+      "auth": true,
+      "description": "订阅信息"
+    },
+    {
+      "method": "GET",
+      "path": "/api/invite/list",
+      "auth": true,
+      "description": "邀请信息"
+    },
+    {
+      "method": "GET",
+      "path": "/api/team/list",
+      "auth": true,
+      "description": "团队列表"
+    },
+    {
+      "method": "POST",
+      "path": "/api/team/create",
+      "auth": true,
+      "description": "创建团队（需付费订阅）"
+    },
+    {
+      "method": "POST",
+      "path": "/api/image/volces-moderation",
+      "auth": true,
+      "description": "图片内容审核",
+      "body": {"imageUrl": "string"}
+    },
+    {
+      "method": "POST",
+      "path": "/api/s3/presigned-url",
+      "auth": true,
+      "description": "获取S3预签名上传URL",
+      "body": {"fileName": "string", "contentType": "string"}
+    },
+    {
+      "method": "POST",
+      "path": "/api/upload/attachment",
+      "auth": true,
+      "description": "上传附件",
+      "body": {"url": "string", "name": "string"}
+    },
+    {
+      "method": "POST",
+      "path": "/api/storyboard/parse-import",
+      "auth": true,
+      "description": "分镜板导入"
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/update_my_profile",
+      "auth": true,
+      "description": "更新用户资料",
+      "body": {"name": "string"}
+    },
+    {
+      "method": "POST",
+      "path": "/api/subscription/recharge-discount-codes/preview",
+      "auth": true,
+      "description": "充值折扣码预览",
+      "body": {"code": "string"}
+    },
+    {
+      "method": "GET",
+      "path": "/api/billing/recharge-discount-codes/summary",
+      "auth": true,
+      "description": "充值折扣码摘要"
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat/start",
+      "auth": true,
+      "description": "开始聊天会话",
+      "body": {"baseId": "string", "session_id": "optional"}
+    },
+    {
+      "method": "POST",
+      "path": "/api/chat/cancel/{session_id}",
+      "auth": true,
+      "description": "取消聊天会话"
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/redeem-coupon",
+      "auth": true,
+      "description": "兑换优惠券",
+      "body": {"code": "string"}
+    },
+    {
+      "method": "GET",
+      "path": "/api/workflow/listMyWorkflows",
+      "query": {"pageSize": "20", "pageNumber": "1"},
+      "auth": true,
+      "description": "工作流列表"
+    },
+    {
+      "method": "GET",
+      "path": "/api/workflow/listMyRunJob",
+      "query": {"pageSize": "50", "pageNumber": "1"},
+      "auth": true,
+      "description": "工作流运行记录"
+    },
+    {
+      "method": "GET",
+      "path": "/api/storage/listMyStorage",
+      "auth": true,
+      "description": "存储列表"
+    },
+    {
+      "method": "GET",
+      "path": "/api/machine/listMyMachines",
+      "auth": true,
+      "description": "机器列表"
+    },
+    {
+      "method": "GET",
+      "path": "/api/model/listModelByFolderName",
+      "query": {"folder": "checkpoints|loras|controlnet|animatediff_models|vae"},
+      "auth": true,
+      "description": "模型文件列表"
+    }
   ],
-  "base": [
-    "/api/base/",
-    "/api/base/create",
-    "/api/base/list"
+  "js_discovered_paths": [
+    "/api/admin/debug/stop-impersonate",
+    "/api/auth/signin",
+    "/api/billing/createCheckoutSession",
+    "/api/billing/listTransactions",
+    "/api/subscription/stripe/create-checkout",
+    "/api/subscription/stripe/customer-portal",
+    "/api/telemetry",
+    "/api/v1/task/"
   ],
-  "chat": [
-    "/api/chat/start",
-    "/api/chat/cancel/",
-    "/api/chat_session/"
+  "known_invalid": [
+    {"method": "POST", "path": "/api/episode/create", "error": "404 Not Found"},
+    {"method": "POST", "path": "/api/base/{id}/episode", "error": "404 Not Found"},
+    {"method": "POST", "path": "/api/base/dashboard", "error": "405 Method Not Allowed"}
   ],
-  "session": [
-    "/api/session/"
-  ],
-  "storyboard": [
-    "/api/storyboard/parse-import"
-  ],
-  "upload": [
-    "/api/upload/attachment"
-  ],
-  "showcase": [
-    "/api/showcase/",
-    "/api/showcase/review",
-    "/api/showcase/migrate"
-  ]
+  "model_ids": {
+    "kling_o3": "generate_video_by_kling_o3",
+    "kling_v3_0": "generate_video_by_kling_v3_0",
+    "seedance_1_5_pro": "generate_video_by_seedance_1_5_pro",
+    "seedance_2_0_pro": "generate_video_by_seedance_2_0_pro",
+    "hailuo_2_3": "generate_video_by_hailuo_2_3",
+    "wan_2_6_i2v": "generate_video_by_wan_2_6_i2v",
+    "vidu_q3_pro": "generate_video_by_vidu_q3_pro"
+  }
 }
